@@ -4,7 +4,7 @@
 #
 Name     : python-gflags
 Version  : 3.1.1
-Release  : 4
+Release  : 5
 URL      : http://pypi.debian.net/python-gflags/python-gflags-3.1.1.tar.gz
 Source0  : http://pypi.debian.net/python-gflags/python-gflags-3.1.1.tar.gz
 Summary  : Google Commandline Flags Module
@@ -12,6 +12,7 @@ Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: python-gflags-bin
 Requires: python-gflags-legacypython
+Requires: python-gflags-python3
 Requires: python-gflags-python
 BuildRequires : pbr
 BuildRequires : pip
@@ -34,6 +35,7 @@ bin components for the python-gflags package.
 %package legacypython
 Summary: legacypython components for the python-gflags package.
 Group: Default
+Requires: python-core
 
 %description legacypython
 legacypython components for the python-gflags package.
@@ -43,9 +45,19 @@ legacypython components for the python-gflags package.
 Summary: python components for the python-gflags package.
 Group: Default
 Requires: python-gflags-legacypython
+Requires: python-gflags-python3
 
 %description python
 python components for the python-gflags package.
+
+
+%package python3
+Summary: python3 components for the python-gflags package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the python-gflags package.
 
 
 %prep
@@ -56,12 +68,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505420333
+export SOURCE_DATE_EPOCH=1507170108
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
 %install
-export SOURCE_DATE_EPOCH=1505420333
+export SOURCE_DATE_EPOCH=1507170108
 rm -rf %{buildroot}
 python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
 python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
@@ -81,5 +93,8 @@ echo ----[ mark ]----
 /usr/lib/python2*/*
 
 %files python
+%defattr(-,root,root,-)
+
+%files python3
 %defattr(-,root,root,-)
 /usr/lib/python3*/*
