@@ -4,20 +4,17 @@
 #
 Name     : python-gflags
 Version  : 3.1.2
-Release  : 22
+Release  : 23
 URL      : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Source0  : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Summary  : Google Commandline Flags Module
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: python-gflags-bin
-Requires: python-gflags-python3
-Requires: python-gflags-python
-BuildRequires : pbr
-BuildRequires : pip
-
-BuildRequires : python3-dev
-BuildRequires : setuptools
+Requires: python-gflags-bin = %{version}-%{release}
+Requires: python-gflags-license = %{version}-%{release}
+Requires: python-gflags-python = %{version}-%{release}
+Requires: python-gflags-python3 = %{version}-%{release}
+BuildRequires : buildreq-distutils3
 
 %description
 The list of files here isn't complete.  For a step-by-step guide on
@@ -27,15 +24,24 @@ http://www.debian.org/doc/maint-guide/
 %package bin
 Summary: bin components for the python-gflags package.
 Group: Binaries
+Requires: python-gflags-license = %{version}-%{release}
 
 %description bin
 bin components for the python-gflags package.
 
 
+%package license
+Summary: license components for the python-gflags package.
+Group: Default
+
+%description license
+license components for the python-gflags package.
+
+
 %package python
 Summary: python components for the python-gflags package.
 Group: Default
-Requires: python-gflags-python3
+Requires: python-gflags-python3 = %{version}-%{release}
 
 %description python
 python components for the python-gflags package.
@@ -52,21 +58,35 @@ python3 components for the python-gflags package.
 
 %prep
 %setup -q -n python-gflags-3.1.2
+cd %{_builddir}/python-gflags-3.1.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1523299287
-python3 setup.py build -b py3
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1578006328
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+export MAKEFLAGS=%{?_smp_mflags}
+python3 setup.py build
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
-python3 -tt setup.py build -b py3 install --root=%{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/python-gflags
+cp %{_builddir}/python-gflags-3.1.2/COPYING %{buildroot}/usr/share/package-licenses/python-gflags/b2d4ab17f1b8ef9e0646ba932dce81efe3b852ab
+cp %{_builddir}/python-gflags-3.1.2/debian/copyright %{buildroot}/usr/share/package-licenses/python-gflags/312ca9b33bd2f53c71a9594ccff0f3c5c34af08a
+python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
+## install_append content
+chmod -v 755 %{buildroot}/usr/bin/gflags2man.py
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -74,6 +94,11 @@ echo ----[ mark ]----
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/gflags2man.py
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/python-gflags/312ca9b33bd2f53c71a9594ccff0f3c5c34af08a
+/usr/share/package-licenses/python-gflags/b2d4ab17f1b8ef9e0646ba932dce81efe3b852ab
 
 %files python
 %defattr(-,root,root,-)

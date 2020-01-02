@@ -1,0 +1,1 @@
+chmod -v 755 %{buildroot}/usr/bin/gflags2man.py
