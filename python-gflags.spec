@@ -4,7 +4,7 @@
 #
 Name     : python-gflags
 Version  : 3.1.2
-Release  : 27
+Release  : 28
 URL      : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Source0  : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Summary  : Google Commandline Flags Module
@@ -66,11 +66,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583540861
+export SOURCE_DATE_EPOCH=1603401989
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
