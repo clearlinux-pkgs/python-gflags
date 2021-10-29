@@ -4,7 +4,7 @@
 #
 Name     : python-gflags
 Version  : 3.1.2
-Release  : 38
+Release  : 39
 URL      : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Source0  : http://pypi.debian.net/python-gflags/python-gflags-3.1.2.tar.gz
 Summary  : Google Commandline Flags Module
